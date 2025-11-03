@@ -140,8 +140,8 @@ def advanceProbsMix(P: np.ndarray, M: np.ndarray, round_el: int) -> np.ndarray:
     nslots = int(ngroups / (2 ** (round_el - 1)))  # number of free slots through which teams can advance,
     # i.e., 8 slots will lead to 4 matches -> entering quarter final
 
-    nteamspossperslot = int((
-                                        2 ** round_el) * groupsize)  # number of teams that can end up in a slot, depends on how often subtrees have been mixed before
+    # number of teams that can end up in a slot, depends on how often subtrees have been mixed before
+    nteamspossperslot = int((2 ** round_el) * groupsize)
 
     nt = range(2 ** (round_el - 1),
                2 ** round_el)  # "neighboring" groups that need to be looked at, depends on the stage
