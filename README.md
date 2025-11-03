@@ -1,2 +1,51 @@
-# efficient-tournament-probabilities
-computes efficiently exact probabilities for given match-outcome model of elimination tournament that follows a round-robin group phase with groups of size 4
+# efficient tournament probabilities
+
+The code provides a Python implementation that computes efficiently exact probabilities of an elimination tournament
+that follows a round-robin group phase with groups of size 4
+where match-outcome probabilities are given.
+In the tournaments we consider, fixtures are determined in advance,
+i.e., the trajectory of a team is known by the end of the group stage.
+The key observation is that whoever advances into the next elimination round (colored edges) is independent
+of the other subtrees, and that the same kind of separation of subtrees is maintained upwards:
+
+<img src="figs/all-mix.png" width="250em">
+
+
+Match outcomes probabilities
+
+- must not change after the start of the computation
+- are independent from each other, i.e., based only on information about the two teams
+  playing each other
+- distinguish only winning, drawing, and losing, i.e., tie-breaking to determine a ranking at the end of the group
+  stage (based on
+  goal differences, direct comparisons, fair-play etc.) are not considered and instead treated as fair coin flips
+
+# using the code
+
+The main function is [_runExactProbs_](./src/exact_probs.py) which requires one argument:
+an array of matrices representing match-outcome probabilities for each round (group phase plus all elimination rounds),
+where each matrix meets the requirements as specified above.
+
+Exemplarily, the application of the code to the FIFA Men's World Cup 2022
+and the UEFA Women's Euro 2025 can be found in [_run_fwc22.py_](./src/run_fmwc22.py) and [
+_run_uwe25.py_](./src/run_uwe25.py);
+the match outcome model used is that of Davidson & Beaver (1977) where the team strengths are derived from FIFA Ratings.
+
+<img src="figs/bracket_mwc2022.png" width="250em">
+
+FIFA Men's World Cup 2022
+
+
+<img src="figs/bracket_wec2025.png" width="250em">
+
+UEFA Women's Euro 2025
+
+# references
+
+[Brandes, U., Marmulla, G., & Smokovic, I. (2025).
+Efficient computation of tournament winning probabilities.
+Journal of Sports Analytics, 11. https://doi.org/10.1177/22150218251313905](https://journals.sagepub.com/doi/10.1177/22150218251313905)
+
+[Davidson RR, Beaver RJ (1977).
+On extending the Bradley-Terry model to incorporate within-pair order effects.
+Biometrics 33(4): 693–702. https://doi.org/10.2307/2529467.](https://www.jstor.org/stable/2529467?origin=crossref&seq=3)
