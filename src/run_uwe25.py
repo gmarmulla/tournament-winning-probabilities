@@ -6,16 +6,12 @@ import pandas as pd
 import exact_probs
 import match_models
 
-# this is fix
-groupsize = 4  # teams per group
-
 """ WOMEN'S EUROS 2025 """
 # take fifa ratings from december 2024
 input = pd.read_csv("../data/uwe25_fifa1224.csv", sep=",")
 uew_points = input.iloc[:, 2]
 uew_teams = input.iloc[:, 1]
 n = len(uew_teams)  # total number of teams
-groups = int(n / groupsize)  # number of groups
 
 # match outcome model and its optional arguments
 model = match_models.fifaRankingExtended
