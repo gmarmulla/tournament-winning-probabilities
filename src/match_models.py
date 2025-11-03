@@ -1,4 +1,5 @@
 import numpy as np
+import math
 
 
 def fifaRankingExtended(rt: float, ru: float, s: int, **kwargs) -> float:
@@ -17,13 +18,13 @@ def fifaRankingExtended(rt: float, ru: float, s: int, **kwargs) -> float:
     strength_u = 1.0 / (1 + 10 ** ((rt - ru) / scalar))
     strength_t = 1.0 / (1 + 10 ** ((ru - rt) / scalar))
     if s == 0:
-        return strength_u / (scalar_hfa * strength_t + scalar_draw * np.math.sqrt(strength_t * strength_u) + strength_u)
+        return strength_u / (scalar_hfa * strength_t + scalar_draw * math.sqrt(strength_t * strength_u) + strength_u)
     elif s == 1:
-        return scalar_draw * np.math.sqrt(strength_t * strength_u) / (
-                scalar_hfa * strength_t + scalar_draw * np.math.sqrt(strength_t * strength_u) + strength_u)
+        return scalar_draw * math.sqrt(strength_t * strength_u) / (
+                scalar_hfa * strength_t + scalar_draw * math.sqrt(strength_t * strength_u) + strength_u)
     else:
         return scalar_hfa * strength_t / (
-                scalar_hfa * strength_t + scalar_draw * np.math.sqrt(strength_t * strength_u) + strength_u)
+                scalar_hfa * strength_t + scalar_draw * math.sqrt(strength_t * strength_u) + strength_u)
 
 
 def computeMatchProbs(transform, ratings: np.array, hfa_teams: list, **kwargs) -> np.ndarray:
