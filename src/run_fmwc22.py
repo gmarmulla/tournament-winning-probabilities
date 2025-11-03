@@ -6,16 +6,12 @@ import pandas as pd
 import exact_probs
 import match_models
 
-# this is fix
-groupsize = 4  # teams per group
-
 """ MEN'S WORLD CUP 2022 """
 # take fifa ratings from october 2022
 input = pd.read_csv("../data/fmwc22_fifa1022.csv", sep=",")
 mwc_points = input.iloc[:, 2]
 mwc_teams = input.iloc[:, 1]
 n = len(mwc_teams)  # total number of teams
-groups = int(n / groupsize)  # number of groups
 
 # match outcome model and its optional arguments
 model = match_models.fifaRankingExtended
@@ -57,7 +53,6 @@ line = str(",").join(labels)
 print(line)
 
 for t in range(0, n):
-    # reverse order
     probs = (np.asarray(res[t, 0:(ind_lastcol + 1)])).tolist()[::-1]
     line = mwc_teams[r[t]] + "," + str(",").join([str(format(p, '.2f')) for p in probs])
     print(line)
