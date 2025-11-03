@@ -22,7 +22,7 @@ Match outcomes probabilities
 
 # using the code
 
-The main function is [_runExactProbs_](./src/exact_probs.py) which requires one argument:
+The main function is [_runExactProbs_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/8a561d3cb526b06469d0f96ed38efb2a26e7a708/src/exact_probs.py#L262) which requires one argument:
 an array of matrices representing match-outcome probabilities for each round (group phase plus all elimination rounds),
 where each matrix meets the requirements as specified above.
 
