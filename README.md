@@ -22,14 +22,25 @@ Match outcomes probabilities
 
 # using the code
 
-The main function is [_runExactProbs_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/8a561d3cb526b06469d0f96ed38efb2a26e7a708/src/exact_probs.py#L262) which requires one argument:
+The main function is [_runExactProbs_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/8a561d3cb526b06469d0f96ed38efb2a26e7a708/src/exact_probs.py#L262) which requires one mandatory argument:
 an array of matrices representing match-outcome probabilities for each round (group phase plus all elimination rounds),
 where each matrix meets the requirements as specified above.
+Each team is assumed to have a constant index in the matrices, 
+and the order of the teams is representing the fixture from left to right, 
+i.e., the first four teams belong to group A, and so on.
+The optional argument _mixuntil_ allows alternative tournament formats where subtrees are merged 
+from a certain elimination round onwards.
+This applied for example to the Women's World Cup 2023 after elimination round 2:
 
-Exemplarily, the application of the code to the FIFA Men's World Cup 2022
-and the UEFA Women's Euro 2025 can be found in [_run_fwc22.py_](./src/run_fmwc22.py) and [
-_run_uwe25.py_](./src/run_uwe25.py);
-the match outcome model used is that of Davidson & Beaver (1977) where the team strengths are derived from FIFA Ratings.
+<img src="figs/bracket_wwc2023.png" width="250em">
+
+FIFA Women's World Cup 2023
+
+Exemplarily, the application of the code to the FIFA Men's and Women's World Cup 2022/2023,
+as well as the UEFA Women's Euro 2025 can be found in [_run_fwc22.py_](./src/run_fmwc22.py), [_run_fwwc23.py](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/main/src/run_fwwc23.py) 
+and [_run_uwe25.py_](./src/run_uwe25.py);
+we use the match outcome model of Davidson & Beaver (1977) 
+where the team strengths are derived from FIFA Ratings.
 
 <img src="figs/bracket_mwc2022.png" width="250em">
 
@@ -49,3 +60,5 @@ Journal of Sports Analytics, 11. https://doi.org/10.1177/22150218251313905](http
 [Davidson RR, Beaver RJ (1977).
 On extending the Bradley-Terry model to incorporate within-pair order effects.
 Biometrics 33(4): 693–702. https://doi.org/10.2307/2529467.](https://www.jstor.org/stable/2529467?origin=crossref&seq=3)
+
+[FIFA/Coca-Cola World Ranking](https://inside.fifa.com/fifa-world-ranking)

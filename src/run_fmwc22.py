@@ -26,7 +26,7 @@ optArgs['scalar'] = scalar
 M = match_models.computeMatchProbs(model, mwc_points, hfa_teams, **optArgs)
 # here: time-independent match outcome probabilities
 M = np.array([M, M, M, M, M])
-
+# men's tournament tree is mixing until the last round
 res = exact_probs.runExactProbs(M)
 
 # (formatted) print to console
