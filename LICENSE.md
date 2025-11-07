@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2025 Gordana Marmulla, Ivana Smokovic
+Copyright (c) 2025 ETH Zurich, Gordana Marmulla, Ivana Smokovic
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
