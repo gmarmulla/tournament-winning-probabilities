@@ -37,7 +37,7 @@ This applied for example to the Women's World Cup 2023 after elimination round 2
 FIFA Women's World Cup 2023
 
 Exemplarily, the application of the code to the FIFA Men's and Women's World Cup 2022/2023,
-as well as the UEFA Women's Euro 2025 can be found in [_run_fwc22.py_](./src/run_fmwc22.py), [_run_fwwc23.py](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/main/src/run_fwwc23.py) 
+as well as the UEFA Women's Euro 2025 can be found in [_run_fwc22.py_](./src/run_fmwc22.py), [_run_fwwc23.py_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/main/src/run_fwwc23.py) 
 and [_run_uwe25.py_](./src/run_uwe25.py);
 we use the match outcome model of Davidson & Beaver (1977) 
 where the team strengths are derived from FIFA Ratings.
