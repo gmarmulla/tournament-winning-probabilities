@@ -1,4 +1,4 @@
-# efficient tournament probabilities
+# tournament winning probabilities
 
 The code provides a Python implementation that computes efficiently exact probabilities of an elimination tournament
 that follows a round-robin group phase with groups of size 4
@@ -22,12 +22,12 @@ Match outcomes probabilities
 
 # using the code
 
-The main function is [_runExactProbs_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/8a561d3cb526b06469d0f96ed38efb2a26e7a708/src/exact_probs.py#L262) which requires one mandatory argument:
+The main function is [_runExactProbs_](https://github.com/gmarmulla/efficient-tournament-probabilities/blob/8a561d3cb526b06469d0f96ed38efb2a26e7a708/src/exact_probs.py#L262) which computes all the probabilities and requires one mandatory argument:
 an array of matrices representing match-outcome probabilities for each round (group phase plus all elimination rounds),
 where each matrix meets the requirements as specified above.
 Each team is assumed to have a constant index in the matrices, 
 and the order of the teams is representing the fixture from left to right, 
-i.e., the first four teams belong to group A, and so on.
+i.e., the first four teams belong to the leftmost group of the tournament tree, and so on.
 The optional argument _mixuntil_ allows alternative tournament formats where subtrees are merged 
 from a certain elimination round onwards.
 This applied for example to the Women's World Cup 2023 after elimination round 2:
