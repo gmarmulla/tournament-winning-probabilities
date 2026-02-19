@@ -123,7 +123,7 @@ def leaveGroup(M: np.ndarray) -> np.ndarray:
     return pLG
 
 
-def advanceProbsMix(P: np.ndarray, M: np.ndarray, round_el: int) -> np.ndarray:
+def advanceProbsMix(P: np.ndarray, M: np.ndarray, groupsize: int, round_el: int) -> np.ndarray:
     '''
     Computes the probabilities of surviving the elimination round round_el.
     :param P: probability matrix from round before, i.e., entering the current elimination round
@@ -340,6 +340,44 @@ def runExactProbs(M: np.array, mixuntil=math.inf) -> np.ndarray:
         else:
             res = advanceProbsMix(P[round_el - 1, :, :], M[round_el], round_el)
 
+        tinyCheckBlocks(2 ** round_el * groupsize, res)
+        P[round_el, :, :] = res.copy()
+
+    # last ko-round is the final
+    pW = winFinal(P[ko_rounds - 1, :, :], M[ko_rounds])
+    s = np.sum(pW)
+    if not math.isclose(s, 1, rel_tol=1e-7):
+        raise Exception("Probabilities do not sum up to one.")
+
+    res = [[sum(P[0, 0:n, t]) for t in range(0, n)],
+           [sum(P[0, t, 0:n]) for t in range(0, n)]]
+    res += [[sum(P[i, t, 0:n]) + sum(P[i, 0:n, t]) for t in range(0, n)] for i in range(1, ko_rounds)]
+    res.append([pW[t] for t in range(0, n)])
+    res = np.transpose(np.matrix(res))
+
+    return res
+
+
+def runExactProbsCL(M: np.array, groupsize: int) -> np.ndarray:
+    '''Computes the exact probabilities given all match outcome probabilities for each stage.
+        :param M: array of matrices for match probabilities on single tournament levels
+        :param mixuntil: integer that defines until which elimination round (inclusive) subtrees are mixed
+                (default value infinity, such that default format is a tournament tree which is mixing at every elimination round)
+        :return res: returns the table with exact probabilities
+                    res[i,r] = probability that team i makes it into a stage r
+                    (columns start with group 2nd, group 1st, first elimination round, etc.)'''
+
+    n = M.shape[1]
+    ko_rounds = int(math.log(n / groupsize * 2, 2))
+
+    P = np.zeros((ko_rounds, n, n))
+    # assign random draw to each group of two -> leaving group on rank 1 or 2 is coin flip
+    for d in range(0,16):
+        P[0, d*2, d*2+1] =  P[0, d * 2+1, d * 2] = 0.5
+    tinyCheckBlocks(groupsize, P[0, :, :])
+
+    for round_el in range(1, ko_rounds):
+        res = advanceProbsMix(P[round_el - 1, :, :], M[round_el], groupsize,round_el)
         tinyCheckBlocks(2 ** round_el * groupsize, res)
         P[round_el, :, :] = res.copy()
 

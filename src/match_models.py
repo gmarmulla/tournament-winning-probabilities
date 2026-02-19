@@ -1,5 +1,6 @@
-import numpy as np
 import math
+
+import numpy as np
 
 
 def fifaRankingExtended(rt: float, ru: float, s: int, **kwargs) -> float:
@@ -15,8 +16,8 @@ def fifaRankingExtended(rt: float, ru: float, s: int, **kwargs) -> float:
     scalar = kwargs.get('scalar', 1.0)  # default value if no scale is specified
     scalar_draw = kwargs.get('scalar_draw', 1.0)
     scalar_hfa = kwargs.get('scalar_hfa', 1.0)
-    strength_u = 1.0 / (1 + 10 ** ((rt - ru) / scalar))
-    strength_t = 1.0 / (1 + 10 ** ((ru - rt) / scalar))
+    strength_u = 1.0 / (1 + math.exp((rt - ru) / scalar))
+    strength_t = 1.0 / (1 + math.exp((ru - rt) / scalar))
     if s == 0:
         return strength_u / (scalar_hfa * strength_t + scalar_draw * math.sqrt(strength_t * strength_u) + strength_u)
     elif s == 1:
