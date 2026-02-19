@@ -3,18 +3,16 @@ import math
 import numpy as np
 import pandas as pd
 
-import exact_probs
 import match_models
-
-# this is fix
-groupsize = 4  # teams per group
+from src.group_phase import leaveGroup
+from src.knockout_phase import runExactProbs
 
 """ WOMEN'S WORLD CUP 2023 """
 input = pd.read_csv("../data/fwwc23_fifa0623.csv", sep=",")
 wwc_points = input.iloc[:, 2]
 wwc_teams = input.iloc[:, 1]
 n = len(wwc_teams)  # total number of teams
-groups = int(n / groupsize)  # number of groups
+groupsize = 4  # teams per group
 
 # match outcome model and its optional arguments
 model = match_models.fifaRankingExtended
@@ -30,8 +28,11 @@ optArgs['scalar'] = scalar
 M = match_models.computeMatchProbs(model, wwc_points, hfa_teams, **optArgs)
 # here: time-independent match outcome probabilities
 M = np.array([M, M, M, M, M])
+# probabilities to enter the knockout phase
+# single round-robin phase
+E = leaveGroup(M[0])
 # after the second elimination round, subtrees are merged
-res = exact_probs.runExactProbs(M, 2)
+res = runExactProbs(M, E, groupsize, 2)
 
 # (formatted) print to console
 leave_group = res[0:n, 0] + res[0:n, 1]

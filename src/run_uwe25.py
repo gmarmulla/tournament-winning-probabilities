@@ -3,8 +3,9 @@ import math
 import numpy as np
 import pandas as pd
 
-import exact_probs
 import match_models
+from knockout_phase import runExactProbs
+from src.group_phase import leaveGroup
 
 """ WOMEN'S EUROS 2025 """
 # take fifa ratings from december 2024
@@ -12,6 +13,7 @@ input = pd.read_csv("../data/uwe25_fifa1224.csv", sep=",")
 uew_points = input.iloc[:, 2]
 uew_teams = input.iloc[:, 1]
 n = len(uew_teams)  # total number of teams
+groupsize = 4  # size of the groups
 
 # match outcome model and its optional arguments
 model = match_models.fifaRankingExtended
@@ -28,7 +30,10 @@ M = match_models.computeMatchProbs(model, uew_points, hfa_teams, **optArgs)
 # here: time-independent match outcome probabilities
 M = np.array([M, M, M, M])
 
-res = exact_probs.runExactProbs(M)
+# compute the probabilities to leave the group
+# single round-robin phase
+E = leaveGroup(M[0])
+res = runExactProbs(M, E, groupsize)
 
 # (formatted) print to console
 leave_group = res[0:n, 0] + res[0:n, 1]

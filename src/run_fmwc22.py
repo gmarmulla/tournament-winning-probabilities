@@ -3,8 +3,9 @@ import math
 import numpy as np
 import pandas as pd
 
-import exact_probs
 import match_models
+from src.group_phase import leaveGroup
+from src.knockout_phase import runExactProbs
 
 """ MEN'S WORLD CUP 2022 """
 # take fifa ratings from october 2022
@@ -12,6 +13,7 @@ input = pd.read_csv("../data/fmwc22_fifa1022.csv", sep=",")
 mwc_points = input.iloc[:, 2]
 mwc_teams = input.iloc[:, 1]
 n = len(mwc_teams)  # total number of teams
+groupsize = 4  # # size of the groups
 
 # match outcome model and its optional arguments
 model = match_models.fifaRankingExtended
@@ -26,8 +28,11 @@ optArgs['scalar'] = scalar
 M = match_models.computeMatchProbs(model, mwc_points, hfa_teams, **optArgs)
 # here: time-independent match outcome probabilities
 M = np.array([M, M, M, M, M])
+# probabilities to enter the knockout phase
+# single round-robin phase
+E = leaveGroup(M[0])
 # men's tournament tree is mixing until the last round
-res = exact_probs.runExactProbs(M)
+res = runExactProbs(M, E, groupsize)
 
 # (formatted) print to console
 leave_group = res[0:n, 0] + res[0:n, 1]
